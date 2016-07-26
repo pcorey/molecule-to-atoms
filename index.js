@@ -1,21 +1,24 @@
 export function molecule(formula) {
-    function parts() {
-        let parts, results = [];
-        let regex = /(\[(.*)\]|([A-Z][a-z]*))(\d*)/g;
-        while (parts = regex.exec(formula)) {
-            let [_, __, square, part, count] = parts;
-            if (square) {
-                let nested = molecule(square).parts();
-                results = results.concat(nested);
-            }
-            else {
-                results.push({
-                    part,
-                    count: parseInt(count) || 1
-                });
-            }
+    let _parts = [];
+
+    let matches;
+    let regex = /(\[(.*)\]|([A-Z][a-z]*))(\d*)/g;
+    while (matches = regex.exec(formula)) {
+        let [_, __, square, part, count] = matches;
+        if (square) {
+            let nested = molecule(square).parts();
+            _parts = _parts.concat(nested);
         }
-        return results;
+        else {
+            _parts.push({
+                part,
+                count: parseInt(count) || 1
+            });
+        }
+    }
+
+    function parts() {
+        return _parts;
     }
 
     function parse() {
