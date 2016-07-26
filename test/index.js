@@ -8,6 +8,7 @@ describe("Molecule to Atoms", function() {
         expect(parseMolecule("H")).to.deep.equal({ H: 1 });
         expect(parseMolecule("HMg")).to.deep.equal({ H: 1, Mg: 1 });
         expect(parseMolecule("H2Mg")).to.deep.equal({ H: 2, Mg: 1 });
+        expect(parseMolecule("H2MgH")).to.deep.equal({ H: 3, Mg: 1 });
     });
 
     describe("molecule", () => {

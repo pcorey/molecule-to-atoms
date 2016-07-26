@@ -14,7 +14,7 @@ export function molecule(formula) {
 
     function parse() {
         return parts().reduce((result, {part, count}) => {
-            result[part] = count;
+            result[part] = ~~result[part] + count;
             return result;
         }, {});
     }
