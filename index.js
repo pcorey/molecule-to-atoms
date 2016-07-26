@@ -1,6 +1,11 @@
 export function molecule(formula) {
     function parse() {
-        return {};
+        if (!formula) {
+            return {};
+        }
+        return {
+            [formula]: 1
+        };
     }
 
     return {
