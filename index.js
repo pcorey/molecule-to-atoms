@@ -5,16 +5,24 @@ export function molecule(formula) {
     let regex = /(\[(.*)\]|([A-Z][a-z]*))(\d*)/g;
     while (matches = regex.exec(formula)) {
         let [_, __, square, part, count] = matches;
+        count = parseInt(count) || 1;
         if (square) {
-            let nested = molecule(square).parts();
-            _parts = _parts.concat(nested);
+            let nested = molecule(square).multiply(count);
+            _parts = _parts.concat(nested.parts());
         }
         else {
             _parts.push({
                 part,
-                count: parseInt(count) || 1
+                count
             });
         }
+    }
+
+    function multiply(count) {
+        _parts.forEach((part) => {
+            part.count *= count;
+        });
+        return this;
     }
 
     function parts() {
@@ -30,7 +38,8 @@ export function molecule(formula) {
 
     return {
         parse,
-        parts
+        parts,
+        multiply
     };
 }
 

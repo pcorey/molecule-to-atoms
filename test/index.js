@@ -10,6 +10,7 @@ describe("Molecule to Atoms", function() {
         expect(parseMolecule("H2Mg")).to.deep.equal({ H: 2, Mg: 1 });
         expect(parseMolecule("H2MgH")).to.deep.equal({ H: 3, Mg: 1 });
         expect(parseMolecule("[H]Mg")).to.deep.equal({ H: 1, Mg: 1 });
+        expect(parseMolecule("[HO]2Mg")).to.deep.equal({ H: 2, O: 2, Mg: 1 });
     });
 
     describe("molecule", () => {
@@ -18,6 +19,9 @@ describe("Molecule to Atoms", function() {
                 { part: "H", count: 1 },
                 { part: "Mg", count: 1 },
             ]);
+        });
+        it("multiplies an object", () => {
+            expect(molecule("H").multiply(2).parse()).to.deep.equal({ H: 2 });
         });
     });
 
