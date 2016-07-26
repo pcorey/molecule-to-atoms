@@ -1,15 +1,18 @@
 export function molecule(formula) {
+    function parts() {
+        return formula.match(/[A-Z][a-z]*/g) || [];
+    }
+
     function parse() {
-        if (!formula) {
-            return {};
-        }
-        return {
-            [formula]: 1
-        };
+        return parts().reduce((result, part) => {
+            result[part] = 1;
+            return result;
+        }, {});
     }
 
     return {
-        parse
+        parse,
+        parts
     };
 }
 
