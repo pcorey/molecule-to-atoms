@@ -1,7 +1,10 @@
 import { expect } from "chai";
+import { parseMolecule } from "../index";
 
-describe("index", function() {
+describe("Molecule to Atoms", function() {
 
-    it("works");
+    it("it parses a molecule", () => {
+        expect(parseMolecule("")).to.deep.equal({});
+    });
 
 });
