@@ -1,11 +1,20 @@
 export function molecule(formula) {
     function parts() {
-        return formula.match(/[A-Z][a-z]*/g) || [];
+        let parts, results = [];
+        let regex = /([A-Z][a-z]*)(\d*)/g;
+        while (parts = regex.exec(formula)) {
+            let [_, part, count] = parts;
+            results.push({
+                part,
+                count: parseInt(count) || 1
+            });
+        }
+        return results;
     }
 
     function parse() {
-        return parts().reduce((result, part) => {
-            result[part] = 1;
+        return parts().reduce((result, {part, count}) => {
+            result[part] = count;
             return result;
         }, {});
     }
