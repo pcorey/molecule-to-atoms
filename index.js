@@ -1,6 +1,8 @@
 export function molecule(formula) {
     let _parts = [];
 
+    formula = formula.replace(/[{(]/g, "[").replace(/[})]/g, "]");
+
     let matches;
     let stack = [];
     let regex = /((\[)|(\])|([A-Z][a-z]*))(\d*)/g;
@@ -9,12 +11,25 @@ export function molecule(formula) {
         count = parseInt(count) || 1;
         if (open) {
             stack.push({
-                formula: ""
+                formula: "",
+                molecules: []
             });
         }
         else if (close) {
-            let nested = molecule(stack.pop().formula).multiply(count);
-            _parts = _parts.concat(nested.parts());
+            let popped = stack.pop();
+            popped.molecules.push(molecule(popped.formula));
+            popped.molecules.forEach((molecule) => {
+                molecule.multiply(count);
+            });
+            if (!stack.length) {
+                popped.molecules.forEach((molecule) => {
+                    _parts = _parts.concat(molecule.parts());
+                });
+            }
+            else {
+                let last = stack[stack.length - 1];
+                last.molecules = last.molecules.concat(popped.molecules);
+            }
         }
         else if (stack.length) {
             stack[stack.length - 1].formula += part + count;

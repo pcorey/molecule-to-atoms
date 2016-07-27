@@ -11,6 +11,14 @@ describe("Molecule to Atoms", function() {
         expect(parseMolecule("H2MgH")).to.deep.equal({ H: 3, Mg: 1 });
         expect(parseMolecule("[H]Mg")).to.deep.equal({ H: 1, Mg: 1 });
         expect(parseMolecule("[HO]2Mg")).to.deep.equal({ H: 2, O: 2, Mg: 1 });
+        expect(parseMolecule("K4{ON(SO3)2}2")).to.deep.equal({K: 4, O: 14, N: 2, S: 4});
+        expect(parseMolecule("{[Co(NH3)4(OH)2]3Co}(SO4)3")).to.deep.equal({
+            Co: 4,
+            N: 12,
+            H: 42,
+            O: 18,
+            S: 3
+        });
     });
 
     describe("molecule", () => {
