@@ -19,6 +19,11 @@ describe("Molecule to Atoms", function() {
                 { part: "H", count: 1 },
                 { part: "Mg", count: 1 },
             ]);
+            expect(molecule("[H]2O[H]").parts()).to.deep.equal([
+                { part: "H", count: 2 },
+                { part: "O", count: 1 },
+                { part: "H", count: 1 }
+            ]);
         });
         it("multiplies an object", () => {
             expect(molecule("H").multiply(2).parse()).to.deep.equal({ H: 2 });

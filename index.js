@@ -2,13 +2,22 @@ export function molecule(formula) {
     let _parts = [];
 
     let matches;
-    let regex = /(\[(.*)\]|([A-Z][a-z]*))(\d*)/g;
+    let stack = [];
+    let regex = /((\[)|(\])|([A-Z][a-z]*))(\d*)/g;
     while (matches = regex.exec(formula)) {
-        let [_, __, square, part, count] = matches;
+        let [_, __, open, close, part, count] = matches;
         count = parseInt(count) || 1;
-        if (square) {
-            let nested = molecule(square).multiply(count);
+        if (open) {
+            stack.push({
+                formula: ""
+            });
+        }
+        else if (close) {
+            let nested = molecule(stack.pop().formula).multiply(count);
             _parts = _parts.concat(nested.parts());
+        }
+        else if (stack.length) {
+            stack[stack.length - 1].formula += part + count;
         }
         else {
             _parts.push({
